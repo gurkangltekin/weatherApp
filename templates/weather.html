@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h1>Hava Durumu</h1>
+<hr>
+
+{% from "includes/formhelpers.html" import render_field %}
+<form method="post">
+
+    {{ render_field(form.cities,class = "form-control") }}
+    <button type="submit" class="btn btn-danger">Sorgula</button>
+
+</form>
+
+
+
+{% if data %}
+
+{{ data }}
+
+{% endif %}
+
+{% endblock body %}

@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+
+{% if username and form %}
+
+    <h1>{{ username }} kullanıcısını düzenle</h1>
+    <hr>
+    {% from "includes/formhelpers.html" import render_field %}
+
+    <form method = "post">
+        {{ render_field(form.name,class = "form-control") }}
+        {{ render_field(form.email,class = "form-control") }}
+        {{ render_field(form.password,class = "form-control") }}
+        {{ render_field(form.confirm,class = "form-control") }}
+        <button type="submit" class="btn btn-primary">bilgileri değiştir</button>
+    </form>
+
+{% endif %}
+
+{% endblock body %}

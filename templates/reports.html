@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+{% if session["auth"] == "admin" %}
+<h1>Raporlar</h1>
+<hr>
+
+{% from "includes/formhelpers.html" import render_field %}
+<form method="post">
+
+    {{ render_field(form.users,class = "form-control") }}
+    <button type="submit" class="btn btn-danger">Sorgula</button>
+
+</form>
+{% else %}
+{% endif %}
+
+{% if data %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">username</th>
+        <th scope="col">Sorgu Zamanı</th>
+        <th scope="col">ip adresi</th>
+        <th scope="col">Sorgu yapılan yer</th>
+        <th scope="col">geçen süre</th>
+        <th scope="col">statü</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for query in data %}
+            <tr>
+                <th scope="row">{{ query.id }}</th>
+                <td>{{ query.username }}</td>
+                <td>{{ query.query_time }}</td>
+                <td>{{ query.user_ip_address }}</td>
+                <td>{{ query.location }}</td>
+                <td>{{ query.result_time }}</td>
+                <td>{{ query.result_status }}</td>
+            </tr>
+        
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+
+{% endblock body %}

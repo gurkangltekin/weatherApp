@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    {% if session["auth"] == "admin" %}
+        <h1>Şehir ekle</h1>
+        <hr>
+
+        {% from "includes/formhelpers.html" import render_field %}
+        <form method="post">
+
+            {{ render_field(form.city,class = "form-control") }}
+            <button type="submit" class="btn btn-danger">Şehir Ekle</button>
+
+        </form>
+        {% if data %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Şehir</th>
+                        <th scope="col">Kullanıcı Adı</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for query in data %}
+                        <tr>
+                            <td>{{ query.id }}</td>
+                            <td>{{ query.city }}</td>
+                            <td>{{ query.username }}</td>
+                            <td><a class="btn btn-primary" href="/locationedit/{{ query.id }}">Düzenle</a></td>
+                            <td><a class="btn btn-danger" href="/locationdelete/{{ query.id }}">Sil</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    {% endif %}
+{% endblock body %}

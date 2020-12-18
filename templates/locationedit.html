@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    {% if session["auth"] == "admin" %}
+        <h1>Şehir ekle</h1>
+        <hr>
+
+        {% from "includes/formhelpers.html" import render_field %}
+        <form method="post">
+
+            {{ render_field(form.city,class = "form-control") }}
+            <button type="submit" class="btn btn-danger">Şehir Düzenle</button>
+
+        </form>
+    {% endif %}
+{% endblock body %}

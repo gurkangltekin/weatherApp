@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+{% if session["auth"] == "admin" %}
+
+    <h1>Kullanıcılar</h1>
+    <hr>
+
+    {% from "includes/formhelpers.html" import render_field %}
+
+    {% if data %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                <th scope="col">Kullanıcı Adı</th>
+                <th scope="col">Email</th>
+                <th scope="col">İsim Soyisim</th>
+                <th scope="col">Yetki</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for query in data %}
+                    <tr>
+                        <td>{{ query.username }}</td>
+                        <td>{{ query.email }}</td>
+                        <td>{{ query.name }}</td>
+                        <td>{{ query.auth }}</td>
+                        {% if query.auth == "admin" %}
+                            <td></td>
+                            <td></td>
+                        {% else %}
+                            <td><a class="btn btn-primary" href="/useredit/{{ query.username }}">Düzenle</a></td>
+                            <td><a class="btn btn-danger" href="/userdelete/{{ query.username }}">Sil</a></td>
+                        {% endif %}
+                    </tr>
+                
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endif %}
+
+{% endblock body %}
