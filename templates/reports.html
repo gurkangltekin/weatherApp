@@ -27,6 +27,7 @@
         <th scope="col">Sorgu yapılan yer</th>
         <th scope="col">geçen süre</th>
         <th scope="col">statü</th>
+        <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -39,8 +40,8 @@
                 <td>{{ query.location }}</td>
                 <td>{{ query.result_time }}</td>
                 <td>{{ query.result_status }}</td>
+                <td><a class="btn btn-secondary" href="/reportdetail/{{ query.id }}">Detay</a></td>
             </tr>
-        
         {% endfor %}
     </tbody>
 </table>

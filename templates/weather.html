@@ -19,6 +19,48 @@
 
 {{ data }}
 
+
+{% if data.weather[0].main != "Rain" %}
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<div class="weather-card one">
+				<div class="top">
+					<div class="wrapper">
+						<h1 class="heading">{{ data.weather[0].main }}</h1>
+						<h3 class="location">{{data.name}}</h3>
+						<p class="temp">
+							<span class="temp-value">{{ temp }}</span>
+							<span class="deg">0</span>
+							<a href="javascript:;"><span class="temp-type">C</span></a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+{% elif data.weather[0].main == "Rain" %}
+		<div class="col">
+			<div class="weather-card rain">
+				<div class="top">
+					<div class="wrapper">
+						<h1 class="heading">Rainy day</h1>
+						<h3 class="location">{{data.name}}</h3>
+						<p class="temp">
+							<span class="temp-value">{{ round((data.main.temp-272.15), 2) }}</span>
+							<span class="deg">0</span>
+							<a href="javascript:;"><span class="temp-type">C</span></a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+        
+{% endif %}
+	</div>
+</div>
+
 {% endif %}
 
 {% endblock body %}

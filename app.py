@@ -6,6 +6,7 @@ from functools import wraps
 import requests
 import time
 import datetime
+import json
 
 
 # Kullanici Giris kontrolu
@@ -156,13 +157,10 @@ def weather():
 
         end = time.time()
 
-        print(res.status_code)
-
         data = res.json()
 
         # gecen sure hesaplaniyor
         timee = end - start
-        print(timee)
 
         result_status = "Başarılı"
 
@@ -173,16 +171,20 @@ def weather():
         ip = requests.get('https://api.ipify.org').text
         
         # yapilan sorgu, veritabanina ekleniyor
-        sorgu = "insert into queries (username, query_time, location, user_ip_address, result, result_time, result_status) values(%s, %s, %s, %s, %s, {}, %s)".format(int(timee*1000))
+        sorgu = "insert into queries (username, query_time, location, user_ip_address, result, result_time, result_status) values(%s, %s, %s, %s, %s, %s, %s)"
 
-        cursor.execute(sorgu,(session["username"], datetime.datetime.now(), city['city'], ip, data, result_status))
+        print(data)
+
+        cursor.execute(sorgu,(session["username"], datetime.datetime.now(), city['city'], ip, data, int(timee*1000), result_status))
         mysql.connection.commit()
 
         cursor.close()
 
+        temp = round((data["main"]["temp"]-272.15),2)
+
 
         
-        return render_template("weather.html", form = form, data = data)
+        return render_template("weather.html", form = form, data = data, temp = temp)
 
     return render_template("weather.html", form = form,)
 
@@ -488,6 +490,23 @@ def locationedit(id):
         else:
             flash("Bu işlem için yetkiniz yok!","danger")
             return redirect(url_for("locations"))
+
+
+# sehir duzenleme
+@app.route("/reportdetail/<int:id>", methods=["GET", "POST"])
+@login_required
+@admin_required
+def reportdetail(id):
+    cursor = mysql.connect.cursor()
+    sorgu = "select * from queries where id = {}".format(id)
+    result = cursor.execute(sorgu)
+    
+    if result > 0:
+        data = cursor.fetchone()
+        return render_template("reportdetail.html", data = data)
+    else:
+        flash("Bu sorgu bulunamadı!","warning")
+        return redirect(url_for("reports"))
 
 
     
