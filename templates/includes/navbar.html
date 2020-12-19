@@ -9,6 +9,7 @@
           <li class="nav-item active">
             <a class="nav-link" href="/">Anasayfa</a>
           </li>
+          {% if session["logged_in"] %}
           {% if session["auth"] == "admin" %}
             <li class="nav-item">
                 <a class="nav-link" href="/locations">Lokasyonu Düzenle</a>
@@ -25,7 +26,6 @@
           <li class="nav-item">
             <a class="nav-link" href="/reports">Raporlar</a>
           </li>
-          {% if session["logged_in"] %}
             <li class="nav-item">
                 <a class="nav-link" href="/logout">Çıkış Yap</a>
             </li>

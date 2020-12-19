@@ -173,16 +173,12 @@ def weather():
         # yapilan sorgu, veritabanina ekleniyor
         sorgu = "insert into queries (username, query_time, location, user_ip_address, result, result_time, result_status) values(%s, %s, %s, %s, %s, %s, %s)"
 
-        print(data)
-
         cursor.execute(sorgu,(session["username"], datetime.datetime.now(), city['city'], ip, data, int(timee*1000), result_status))
         mysql.connection.commit()
 
         cursor.close()
 
-        temp = round((data["main"]["temp"]-272.15),2)
-
-
+        temp = round((data["main"]["temp"]-272.15),1)
         
         return render_template("weather.html", form = form, data = data, temp = temp)
 
@@ -495,7 +491,6 @@ def locationedit(id):
 # sehir duzenleme
 @app.route("/reportdetail/<int:id>", methods=["GET", "POST"])
 @login_required
-@admin_required
 def reportdetail(id):
     cursor = mysql.connect.cursor()
     sorgu = "select * from queries where id = {}".format(id)
